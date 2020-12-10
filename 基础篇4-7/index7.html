@@ -30,12 +30,14 @@
           :title="item.title"
           :del="item.del"
         >
-          <template v-slot:pre-icon="{iconPre}">
+          <!-- <template v-slot:pre-icon="{iconPre}">
             <span class="icon-pre">前置图标:{{iconPre}} |</span>
-          </template>
-          <template v-slot:suf-icon="{iconSuf}">
+          </template> -->
+          <span class="icon-pre" slot="pre-icon" slot-scope="{iconPre}">前置图标:{{iconPre}} |</span>
+          <!-- <template v-slot:suf-icon="{iconSuf}">
             <span class="icon-suf">后置图标:{{iconSuf}} |</span>
-          </template>
+          </template> -->
+          <span class="icon-suf" slot="suf-icon" slot-scope="{iconSuf}">后置图标:{{iconSuf}} |</span>
         </todo-item>
       </todo-list>
     </div>
@@ -45,15 +47,15 @@
         //具名插槽+匿名插槽
         template: `
           <li>
-            <slot name="pre-icon" :iconPre="iconPre"></slot>
+            <slot name="pre-icon" :iconPre="iconPre"/></slot>
             <slot name="pre-icon1">1🌹 |</slot>
             <slot>2🌹 |</slot>
             <span v-if="!del">{{title}} |</span>
             <span v-else style="text-decoration: line-through">{{title}} |</span>
+            <button v-show="!del" @click="clickDelBtn">删除</button>
             <slot name="suf-icon" :iconSuf="iconSuf"></slot>
             <slot name="suf-icon1">1😄 |</slot>
             <slot>2😄 |</slot>
-            <button v-show="!del" @click="clickDelBtn">删除</button>
           </li>
         `,
         data() {
