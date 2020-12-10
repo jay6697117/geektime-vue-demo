@@ -11,6 +11,16 @@
     <div id="app">
       {{message}} {{message + message}}
       <div :id="message"></div>
+      <!-- <todo-list>
+        <todo-item
+          data-test="li-test"
+          @delete="handleDelete"
+          v-for="item in list"
+          :key="item.id"
+          :title="item.title"
+          :del="item.del"
+        ></todo-item>
+      </todo-list> -->
       <todo-list>
         <todo-item
           data-test="li-test"
@@ -20,8 +30,11 @@
           :title="item.title"
           :del="item.del"
         >
-          <template v-slot:pre-icon="{value}">
-            <span>前置图标 {{value}}</span>
+          <template v-slot:pre-icon="{iconPre}">
+            <span class="icon-pre">前置图标:{{iconPre}} |</span>
+          </template>
+          <template v-slot:suf-icon="{iconSuf}">
+            <span class="icon-suf">后置图标:{{iconSuf}} |</span>
           </template>
         </todo-item>
       </todo-list>
@@ -29,18 +42,24 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
       Vue.component('todo-item', {
+        //具名插槽+匿名插槽
         template: `
           <li>
-            <slot name="pre-icon" :value="value"></slot>
-              <span v-if="!del">{{title}}</span>
-              <span v-else style="text-decoration: line-through">{{title}}</span>
-              <slot name="suf-icon">😄</slot>
-              <button v-show="!del" @click="handleClick">删除</button>
+            <slot name="pre-icon" :iconPre="iconPre"></slot>
+            <slot name="pre-icon1">1🌹 |</slot>
+            <slot>2🌹 |</slot>
+            <span v-if="!del">{{title}} |</span>
+            <span v-else style="text-decoration: line-through">{{title}} |</span>
+            <slot name="suf-icon" :iconSuf="iconSuf"></slot>
+            <slot name="suf-icon1">1😄 |</slot>
+            <slot>2😄 |</slot>
+            <button v-show="!del" @click="clickDelBtn">删除</button>
           </li>
         `,
         data() {
           return {
-            value: Date.now().toString()
+            iconPre: '🌹',
+            iconSuf: '😄'
           };
         },
         props: {
@@ -51,7 +70,7 @@
           }
         },
         methods: {
-          handleClick(e) {
+          clickDelBtn(e) {
             console.log('点击删除按钮');
             this.$emit('delete', this.title);
           }
@@ -65,13 +84,13 @@
               <slot></slot>
             </ul>
           `,
-        data: function () {
+        data() {
           return {};
         }
       });
 
-      var vm = new Vue({
-        el: '#app',
+      //vue根实例只有一个所有不用考虑data选项复用导致的对象类型引用问题
+      new Vue({
         data: {
           message: 'hello world',
           list: [
@@ -102,7 +121,7 @@
             console.log('handleDelete', val);
           }
         }
-      });
+      }).$mount('#app');
     </script>
   </body>
 </html>
