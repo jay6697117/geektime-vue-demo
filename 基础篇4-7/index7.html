@@ -22,23 +22,26 @@
         ></todo-item>
       </todo-list> -->
       <todo-list>
-        <todo-item
-          data-test="li-test"
-          @delete="handleDelete"
-          v-for="item in list"
-          :key="item.id"
-          :title="item.title"
-          :del="item.del"
-        >
-          <!-- <template v-slot:pre-icon="{iconPre}">
-            <span class="icon-pre">前置图标:{{iconPre}} |</span>
-          </template> -->
-          <span class="icon-pre" slot="pre-icon" slot-scope="{iconPre}">前置图标:{{iconPre}} |</span>
-          <!-- <template v-slot:suf-icon="{iconSuf}">
-            <span class="icon-suf">后置图标:{{iconSuf}} |</span>
-          </template> -->
-          <span class="icon-suf" slot="suf-icon" slot-scope="{iconSuf}">后置图标:{{iconSuf}} |</span>
-        </todo-item>
+        <template v-slot:default>
+          <todo-item
+            data-test="li-test"
+            @delete="handleDelete"
+            v-for="item in list"
+            :key="item.id"
+            :title="item.title"
+            :del="item.del"
+          >
+            <template v-slot:pre-icon="{iconPre}">
+              <span class="icon-pre">前置图标:{{iconPre}} |</span>
+            </template>
+            <!-- <span class="icon-pre" slot="pre-icon" slot-scope="{iconPre}">前置图标:{{iconPre}} |</span> -->
+            <span>default</span>
+            <template v-slot:suf-icon="{iconSuf}">
+              <span class="icon-suf">后置图标:{{iconSuf}} |</span>
+            </template>
+            <!-- <span class="icon-suf" slot="suf-icon" slot-scope="{iconSuf}">后置图标:{{iconSuf}} |</span> -->
+          </todo-item>
+        </template>
       </todo-list>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -60,8 +63,8 @@
         `,
         data() {
           return {
-            iconPre: '🌹',
-            iconSuf: '😄'
+            iconPre: '0🌹',
+            iconSuf: '0😄'
           };
         },
         props: {
