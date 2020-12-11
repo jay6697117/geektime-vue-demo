@@ -1,15 +1,13 @@
 <template>
-<ul>
-  <slot></slot>
-</ul>
+  <ul>
+    <slot></slot>
+  </ul>
 </template>
 <script>
 export default {
-            
-  data: function() {
-      return {
-
-      }
-  },
-}
+  name: 'TodoList',
+  data: function () {
+    return {};
+  }
+};
 </script>
